@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: polling-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pollingdb
+      POSTGRES_USER: polling_user
+      POSTGRES_PASSWORD: polling_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - polling-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U polling_user -d pollingdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Backend
+  backend:
+    image: us-central1-docker.pkg.dev/yeswanth-475406/yeswanth/polling-backend:latest
+    container_name: polling-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Database configuration
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pollingdb
+      SPRING_DATASOURCE_USERNAME: polling_user
+      SPRING_DATASOURCE_PASSWORD: polling_password
+
+      # JPA configuration
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+
+      #CORS
+
+      # JWT configuration
+      JWT_SECRET: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+      JWT_EXPIRATION: 86400000
+
+      # Spring profile
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - polling-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # React Frontend
+  frontend:
+    image: us-central1-docker.pkg.dev/yeswanth-475406/yeswanth/polling-frontend:latest
+    container_name: polling-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - polling-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  polling-network:
+    driver: bridge

@@ -1,0 +1,51 @@
+# Maven build directories
+target/
+!target/*.jar
+!target/classes
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Logs
+logs/
+*.log
+
+# Test files
+src/test/
+
+# Frontend directory (backend docker only)
+frontend/
+
+# Scripts
+*.sh
+!docker-entrypoint.sh
+
+# Environment files (sensitive data)
+.env
+.env.local
+.env.*.local
