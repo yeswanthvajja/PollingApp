@@ -181,7 +181,7 @@ jobs:
 
           # Execute deployment commands on VM
           gcloud compute ssh ${VM_NAME} --zone=${VM_ZONE} --command="
-            cd ~/polling-app
+            cd ~
 
             # Authenticate Docker with Artifact Registry
             gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }}
