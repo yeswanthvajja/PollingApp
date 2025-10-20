@@ -63,20 +63,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Google Cloud SQL PostgreSQL Socket Factory (for GCP Cloud SQL) -->
-        <dependency>
-            <groupId>com.google.cloud.sql</groupId>
-            <artifactId>postgres-socket-factory</artifactId>
-            <version>1.13.1</version>
-        </dependency>
-
-        <!-- H2 Database for Testing -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- JWT Dependencies -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
