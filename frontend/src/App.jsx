@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import PollList from './components/PollList';
 import PollDetail from './components/PollDetail';
 import CreatePoll from './components/CreatePoll';
+import MyPolls from './components/MyPolls';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -26,6 +27,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <CreatePoll />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/my-polls"
+                element={
+                  <ProtectedRoute>
+                    <MyPolls />
                   </ProtectedRoute>
                 }
               />
