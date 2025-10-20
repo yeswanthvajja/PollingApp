@@ -177,11 +177,11 @@ jobs:
           VM_ZONE: ${{ secrets.GCP_VM_ZONE }}
         run: |
           # Copy docker-compose file to VM
-          gcloud compute scp docker-compose.yml ${VM_NAME}:~ --zone=${VM_ZONE}
+          gcloud compute scp docker-compose.yml ${VM_NAME}:~/polling-app/ --zone=${VM_ZONE}
 
           # Execute deployment commands on VM
           gcloud compute ssh ${VM_NAME} --zone=${VM_ZONE} --command="
-            cd ~
+            cd ~/polling-app/
 
             # Authenticate Docker with Artifact Registry
             gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }}
