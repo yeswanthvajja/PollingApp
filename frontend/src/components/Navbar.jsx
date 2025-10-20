@@ -23,6 +23,9 @@ const Navbar = () => {
               <Link to="/" className="navbar-link">
                 Polls
               </Link>
+              <Link to="/my-polls" className="navbar-link">
+                My Polls
+              </Link>
               <Link to="/create-poll" className="navbar-link">
                 Create Poll
               </Link>
